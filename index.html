@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Docker getting started</title>
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+    <link
+      rel="stylesheet"
+      href="/node_modules/reveal.js/dist/theme/black.css"
+    />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+          ## Intro to Docker
+
+          By Christian Fosli
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+          ## So what is docker?
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+          ## Containers vs Virtual Machines
+          <img src="images/vm_vs_container.png" alt="vm vs container" />
+          <small>Image from &quot;Docker and Kubernetes: The Big Picture&quot; pluralsight course</small>
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+          ## Containers vs Images
+
+          * Similar to class vs instance from OOP
+
+          * `docker build` creates an image
+
+          * `docker run` creates and starts a container from an image
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+          ## The Dockerfile
+
+          ```Dockerfile
+          FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+          WORKDIR /app
+          COPY *.fsproj ./
+          RUN dotnet restore
+          COPY . ./
+          RUN dotnet publish -c Release -o out
+
+          FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+          WORKDIR /app
+          COPY --from=build-env /app/out .
+
+          ENTRYPOINT ["dotnet", "MyWebApp.dll"]
+          ```
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ## Demo time!
+
+            * `docker build`
+
+            * `docker images`
+
+            * `docker run`
+
+            * `docker ps`
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+          ## Docker run examples
+
+          #### Hello-world
+
+          ```console
+          docker run --rm hello-world
+          ```
+
+          ### CLI tools
+
+          ```console
+          docker run --rm -v -it "$(pwd):/work" tmknom/prettier myfile.js
+          ```
+
+          #### Web server
+
+          ```
+          docker run --rm -d -p 80:80 christianfosli/intro-to-docker-slides
+          ```
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ## Docker-Compose
+
+            * Simplify running and building containers with yaml
+
+            * Great for development!
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ## Docker-Compose
+
+            #### Before:
+
+            ```console
+            docker build -t myapp .
+
+            docker network create myapp
+
+            docker run --rm -d --network myapp -p 1433:1433 \
+              -e "ACCEPT_EULA=Y" \
+              -e "SA_PASSWORD=strongpassw0rd!" \
+              --name db \
+              mcr.microsoft.com/mssql/server:2019-latest
+
+            docker run --rm -d --network myapp -p 80:80 \
+              -e "DB_CONN=Server=db:1433;Database=..." \
+              -e "TZ=Europe/Oslo" \
+              myapp
+            ```
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ## Docker-Compose
+
+            #### After:
+
+            ```console
+            docker-compose up -d
+            ```
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ## Docker-Compose
+
+            #### How?
+
+            ```yaml
+            version: 3
+
+            services:
+              myapp:
+                build: .
+                ports:
+                - "80:80
+                env:
+                  DB_CONN: Server=db:1433;Database=...
+                  TZ: Europe/Oslo
+              db:
+                image: mcr.microsoft.com/mssql/server:2019-latest
+                env:
+                  ACCEPT_EULA: Y
+                  SA_PASSWORD=strongpassw0rd!
+                ports:
+                - "1433:1433"
+            ```
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+          ## Next steps
+
+          * docker's getting started tutorial
+
+          ```console
+          docker run -d -p 80:80 docker/getting-started
+          ```
+
+          * Nigel Poulton's pluralsight courses
+
+          -----
+          
+          <small>
+            Slides: <a href="https://hub.docker.com/r/christianfosli/intro-to-docker-slides">hub.docker.com/r/christianfosli/intro-to-docker-slides</a><br/>
+            Source: <a href="https://github.com/christianfosli/intro-to-docker-slides">github.com/christianfosli/intro-to-docker-slides</a>
+          </small>
+          </textarea>
+        </section>
+      </div>
+    </div>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
