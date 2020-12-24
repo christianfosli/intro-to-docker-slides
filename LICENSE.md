@@ -1,3 +1,5 @@
+Except for third party images used in the presentation, this code is:
+
 Copyright (c) 2020 Christian Fosli
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -1,5 +1,6 @@
-# Intro to Docker - Slides
+# Intro to Docker
 
+A small presentation that I'm giving.
 To check out the slideshow either run it from dockerhub:
 
 ```console
