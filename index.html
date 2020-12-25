@@ -76,7 +76,7 @@
             ## The Dockerfile
 
             ```Dockerfile
-            FROM &lt;repository&gt;
+            FROM &lt;base-image&gt;
             WORKDIR /app
             COPY . .
             RUN &lt;build-command&gt;
@@ -87,16 +87,17 @@
           <section data-markdown>
             <textarea data-template>
             ```Dockerfile
-            FROM &lt;repository&gt; AS build
-            WORKDIR /app
+            FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+            WORKDIR /src
+            COPY *.csproj .
+            RUN dotnet restore
             COPY . .
-            RUN &lt;build-command&gt;
+            RUN dotnet publish -c Release -o /app/publish
 
-            FROM &lt;slim-repository&gt;
+            FROM mcr.microsoft.com/dotnet/aspnet:5.0
             WORKDIR /app
-            COPY --from=build /app/bin .
-
-            ENTRYPOINT ["myapp"]
+            COPY --from=build /app/publish .
+            ENTRYPOINT ["dotnet", "MyApp.dll"]
             ```
             </textarea>
           </section>
@@ -124,22 +125,41 @@
             <textarea data-template>
             ## Docker run examples
 
-            #### Hello-world
+            ```console
+            # Quickly create an isolated linux environment
+            docker run --rm -it alpine
+
+            # Run CLI tool on a local file
+            docker run --rm -v "$(pwd):/work" tmknom/prettier myfile.js
+
+            # Azure CLI (minimal alpine image)
+            docker run --rm -it mcr.microsoft.com/azure-cli
+
+            # Azure CloudShell (big but with many tools!)
+            # and mount current directory to /work in the container
+            docker run --rm -it -v "$(pwd):/work" \
+              mcr.microsoft.com/azure-cloudshell /bin/bash
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## Docker run examples
 
             ```console
-            docker run --rm hello-world
-            ```
-
-            ### CLI tools
-
-            ```console
-            docker run --rm -v -it "$(pwd):/work" tmknom/prettier myfile.js
-            ```
-
-            #### Web server
-
-            ```
+            # Web server
             docker run --rm -d -p 80:80 christianfosli/intro-to-docker-slides
+            
+            # Database
+            docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=myPass postgres
+
+            # Elastic Search
+            docker run -d -p 9200:9200 -p 9300:9300 \
+              -e 'discovery.type=single-node' \
+              -e 'ES_JAVA_OPTS=-Xms512m -Xmx512m' \
+              -e 'ELASTIC_PASSWORD=somePassword' \
+              elasticsearch
+
             ```
             </textarea>
           </section>
@@ -160,16 +180,17 @@
 
               ```console
               docker build -t myapp .
-
               docker network create myapp
 
-              docker run --rm -d --network myapp -p 1433:1433 \
+              docker run --rm -d -p 1433:1433 \
+                --network myapp \
                 -e "ACCEPT_EULA=Y" \
                 -e "SA_PASSWORD=strongpassw0rd!" \
                 --name db \
                 mcr.microsoft.com/mssql/server:2019-latest
 
-              docker run --rm -d --network myapp -p 80:80 \
+              docker run --rm -d -p 80:80 \
+                --network myapp \
                 -e "DB_CONN=Server=db:1433;Database=..." \
                 -e "TZ=Europe/Oslo" \
                 myapp
@@ -183,11 +204,15 @@
               ```console
               docker-compose up -d
               ```
+
+              ```console
+              docker-compose up -d --build
+              ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-              #### How?
+              #### How?  --  docker-compose.yaml
 
               ```yaml
               version: 3
@@ -214,6 +239,8 @@
         <section data-markdown>
           <textarea data-template>
           ## Next steps
+
+          * start using docker instead of installing things like database engines
 
           * docker's getting started tutorial
 
