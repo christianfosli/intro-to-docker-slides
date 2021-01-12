@@ -4,15 +4,16 @@
   "description": "intro to docker",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "snowpack dev",
+    "build": "snowpack build"
   },
   "author": "Christian Fosli",
   "license": "MIT",
   "devDependencies": {
-    "parcel-bundler": "^1.12.4"
+    "snowpack": "^2.18.5"
   },
   "dependencies": {
     "reveal.js": "^4.1.0"
   }
 }
+
