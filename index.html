@@ -54,9 +54,9 @@
 
             * Similar to class vs instance from OOP
 
-            * `docker build` creates an image from a Dockerfile
+            * `docker build`: Dockerfile → Image
 
-            * `docker run` creates and starts a container from an image
+            * `docker run`: Image → Container
             </textarea>
           </section>
           <section data-markdown>
@@ -65,13 +65,21 @@
               <small>Image from docs.docker.com on Docker architecture. &copy;Docker Inc</small>
             </textarea>
           </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Bonus info
+
+              It's not actually called "Docker" images anymore.
+              <img src="images/oci-logo.svg" style="background-color: white"/>
+            </textarea>
+          </section>
         </section>
         <section>
           <section data-markdown>
             <textarea data-template>
             ## The Dockerfile
 
-            ```Dockerfile
+            ```docker
             FROM &lt;base-image&gt;
             WORKDIR /app
             COPY . .
@@ -82,7 +90,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-            ```Dockerfile
+            ```docker [1-6|1,6,8,10|8-11]
             FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
             WORKDIR /src
             COPY *.csproj .
@@ -198,10 +206,6 @@
               #### With docker-compose:
 
               ```console
-              docker-compose up -d
-              ```
-
-              ```console
               docker-compose up -d --build
               ```
             </textarea>
@@ -217,7 +221,7 @@
                 myapp:
                   build: .
                   ports:
-                  - "80:80
+                  - "80:80"
                   env:
                     DB_CONN: Server=db:1433;Database=...
                     TZ: Europe/Oslo
