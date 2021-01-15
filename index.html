@@ -39,12 +39,19 @@
             <!-- Example: Share a python script with pip dependencies, anaconda, ... -->
             <!-- Example SQL Server, Elasticsearch, no problem! -->
           </section>
+          <section data-markdown>
+            <textarea data-template>
+            ## How are containers different from VM's?
+            <img src="images/vm_vs_container.png" alt="vm vs container" />
+            <small>Image from &quot;Docker and Kubernetes: The Big Picture&quot; pluralsight course. &copy;Pluralsight LLC</small>
+            </textarea>
+          </section>
         </section>
         <section data-markdown>
           <textarea data-template>
-          ## Containers vs Virtual Machines
-          <img src="images/vm_vs_container.png" alt="vm vs container" />
-          <small>Image from &quot;Docker and Kubernetes: The Big Picture&quot; pluralsight course. &copy;Pluralsight LLC</small>
+            ## Docker Architecture
+            <img src="images/docker_architecture.svg"/>
+            <small>Image from docs.docker.com &copy;Docker Inc</small>
           </textarea>
         </section>
         <section>
@@ -61,12 +68,6 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              <img src="images/docker_architecture.svg"/>
-              <small>Image from docs.docker.com on Docker architecture. &copy;Docker Inc</small>
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
               ### Bonus info
 
               It's not actually called "Docker" images anymore.
@@ -79,6 +80,8 @@
             <textarea data-template>
             ## The Dockerfile
 
+            Tells Docker how to take your source code and build an image out of it.
+
             ```docker
             FROM &lt;base-image&gt;
             WORKDIR /app
@@ -90,6 +93,23 @@
           </section>
           <section data-markdown>
             <textarea data-template>
+            #### Leverage build cache for faster builds
+
+            ```docker [|3-4|5-7]
+            FROM node:lts AS build
+            WORKDIR /usr/src/app
+            COPY package.json package-lock.json ./
+            RUN npm install
+            COPY . .
+            EXPOSE 80
+            CMD ["node", "server.js"]
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            #### Multi-stage builds keep images small
+
             ```docker [1-6|1,6,8,10|8-11]
             FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
             WORKDIR /src
@@ -114,7 +134,7 @@
         <section>
           <section data-markdown>
             <textarea data-template>
-              ## More Demo
+              ## Demo
 
               * `docker build`
 
