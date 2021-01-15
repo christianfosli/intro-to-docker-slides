@@ -10,10 +10,9 @@
   "author": "Christian Fosli",
   "license": "MIT",
   "devDependencies": {
-    "snowpack": "^2.18.5"
+    "snowpack": "^3.0.10"
   },
   "dependencies": {
     "reveal.js": "^4.1.0"
   }
 }
-
