@@ -1,5 +1,5 @@
-FROM rust:1.48 AS build
-WORKDIR /src
+FROM rust:1.49 AS build
+WORKDIR usr/src/helloworld-rs
 COPY . .
 RUN cargo install --path .
 
