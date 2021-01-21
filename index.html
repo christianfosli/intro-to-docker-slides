@@ -102,7 +102,7 @@
             #### Leverage build cache for faster builds
 
             ```docker [|3-4|5-7]
-            FROM node:lts AS build
+            FROM node:lts
             WORKDIR /usr/src/app
             COPY package.json package-lock.json ./
             RUN npm install
