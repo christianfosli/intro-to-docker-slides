@@ -1,5 +1,5 @@
 [package]
-name = "helloworld-rs"
+name = "helloworld"
 version = "0.1.0"
 authors = ["Christian Fosli <christian.fosli@capgemini.com>"]
 edition = "2018"

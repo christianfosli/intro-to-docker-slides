@@ -46,39 +46,21 @@
             <small>Image from &quot;Docker and Kubernetes: The Big Picture&quot; pluralsight course. &copy;Pluralsight LLC</small>
             </textarea>
           </section>
-          <section data-markdown>
-            <textarea data-template>
-            ## How are containers different from images?
-
-            * A container is an "instance" of an image (OOP)
-
-            * `docker build`: Dockerfile → Image
-
-            * `docker run`: Image → Container
-            </textarea>
-          </section>
         </section>
         <section data-markdown>
           <textarea data-template>
             ## High level overview
             <img src="images/overview.svg"/>
           </textarea>
+          <!-- Difference between image and container: Similar to OOP class vs object.
+            A container is an instance of an image
+          -->
+          <!-- Images are immutable. After chainging source code we build a *new* image.
+            The same image can (should) be used in different environments.
+            Environment specific configuration can be injected into the container at runtime,
+            usually with environment variables, or mount files using a bind-mount volume.
+          -->
         </section>
-        <!--section data-markdown>
-          <textarea data-template>
-            ## Docker Architecture
-            <img src="images/docker_architecture.svg"/>
-            <small>Image from docs.docker.com &copy;Docker Inc</small>
-          </textarea>
-        </section-->
-        <!--section data-markdown>
-          <textarea data-template>
-            ### Bonus info
-
-            It's not actually called "Docker" images anymore.
-            <img src="images/oci-logo.svg" style="background-color: white"/>
-          </textarea>
-        </section-->
         <section>
           <section data-markdown>
             <textarea data-template>
@@ -109,6 +91,10 @@
             CMD ["node", "server.js"]
             ```
             </textarea>
+            <!--
+              Most instructions create one layer each, in the docker image.
+              Each layer is cached so that subsequent builds are faster.
+            -->
           </section>
           <section data-markdown>
             <textarea data-template>
@@ -129,17 +115,11 @@
             ```
             </textarea>
           </section>
-          <!--section data-markdown>
-            <textarea data-template>
-              Demo: Write a dockerfile for a rust application
-            </textarea>
-          </section-->
         </section>
+        <!-- TODO: Networks, environment variables, bind-mount volumes, logs?? Within 30 mins?? -->
         <section>
           <section data-markdown>
             <textarea data-template>
-              ## Demo
-
               * `docker build`
 
               * `docker images`
@@ -147,6 +127,8 @@
               * `docker run`
 
               * `docker ps`
+
+              * `docker logs`
             </textarea>
           </section>
           <section data-markdown>
@@ -187,7 +169,6 @@
               -e 'ES_JAVA_OPTS=-Xms512m -Xmx512m' \
               -e 'ELASTIC_PASSWORD=somePassword' \
               elasticsearch
-
             ```
             </textarea>
           </section>
