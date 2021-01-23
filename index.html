@@ -117,23 +117,27 @@
           </section>
         </section>
         <!-- TODO: Networks, environment variables, bind-mount volumes, logs?? Within 30 mins?? -->
+        <section data-markdown>
+          <textarea data-template>
+            * `docker build`
+
+            * `docker images`
+
+            * `docker run`
+
+            * `docker ps`
+
+            * `docker logs`
+          </textarea>
+        </section>
         <section>
           <section data-markdown>
             <textarea data-template>
-              * `docker build`
+            ## Running containers
 
-              * `docker images`
-
-              * `docker run`
-
-              * `docker ps`
-
-              * `docker logs`
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ## Docker run examples
+            ```console
+            docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARGS]
+            ```
 
             ```console
             # Quickly create an isolated linux environment
@@ -154,12 +158,38 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-            ## Docker run examples
+            ### Run interactive process in the foreground
 
             ```console
-            # Web server
+            docker run --rm -it alpine
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Mount files into container with bind-mount volumes
+
+            ```console
+            docker run --rm -v "$(pwd):/work" prettier myfile.js
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Run in the background (detached)
+
+            ### Publish port(s)
+
+            ```console
             docker run --rm -d -p 80:80 christianfosli/intro-to-docker-slides
-            
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Environment variables
+
+            ```console
             # Database
             docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=myPass postgres
 
@@ -169,6 +199,20 @@
               -e 'ES_JAVA_OPTS=-Xms512m -Xmx512m' \
               -e 'ELASTIC_PASSWORD=somePassword' \
               elasticsearch
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Networks
+
+            ```console
+            docker network create myapp
+
+            docker run --rm -d -p 80:80 --network myapp myapp
+            docker run --rm -d -p 5432:5432 --network myapp \
+              -e POSTGRES_PASSWORD=myPass \
+              postgres
             ```
             </textarea>
           </section>
