@@ -115,20 +115,21 @@
             ```
             </textarea>
           </section>
-        </section>
-        <!-- TODO: Networks, environment variables, bind-mount volumes, logs?? Within 30 mins?? -->
-        <section data-markdown>
-          <textarea data-template>
-            * `docker build`
+          <section data-markdown>
+            <textarea data-template>
+            #### Building container images
 
-            * `docker images`
+            ```console
+            docker build [OPTIONS] PATH
+            ```
 
-            * `docker run`
+            ##### Example
 
-            * `docker ps`
-
-            * `docker logs`
-          </textarea>
+            ```console
+            docker build -t myapp:latest .
+            ```
+            </textarea>
+          </section>
         </section>
         <section>
           <section data-markdown>
@@ -137,22 +138,6 @@
 
             ```console
             docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARGS]
-            ```
-
-            ```console
-            # Quickly create an isolated linux environment
-            docker run --rm -it alpine
-
-            # Run CLI tool on a local file
-            docker run --rm -v "$(pwd):/work" tmknom/prettier myfile.js
-
-            # Azure CLI (minimal alpine image)
-            docker run --rm -it mcr.microsoft.com/azure-cli
-
-            # Azure CloudShell (big but with many tools!)
-            # and mount current directory to /work in the container
-            docker run --rm -it -v "$(pwd):/work" \
-              mcr.microsoft.com/azure-cloudshell /bin/bash
             ```
             </textarea>
           </section>
@@ -216,6 +201,19 @@
             ```
             </textarea>
           </section>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            * `docker build`
+
+            * `docker images`
+
+            * `docker run`
+
+            * `docker ps`
+
+            * `docker logs`
+          </textarea>
         </section>
         <section>
           <section data-markdown>
