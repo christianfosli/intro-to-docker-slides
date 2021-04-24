@@ -10,7 +10,9 @@
       <div class="slides">
         <section data-markdown>
           <textarea data-template>
-          ## Docker - What is it and how to use it?
+          ## Docker 🐋
+
+          ### What is it and how to use it
 
           By Christian Fosli
           </textarea>
@@ -18,22 +20,19 @@
         <section>
           <section data-markdown>
             <textarea data-template>
-            ## So what is docker?
-
-            A tool that lets us *package* and *run* an application in an isolated environment
-            ("container")
+            Docker is a tool that lets us *package* and *run* an application in an isolated environment
+            ("container").
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-            ## Why do we want that?
+            ### Why?
 
             * Consistent
 
             * Scalable
 
-            * I can run a lot of tools locally without installing them 
-
+            * Convenient (run tools locally without installing them)
             <img src="images/works_on_my_machine.png" alt="works on my machine" />
             </textarea>
             <!-- Example: Share a python script with pip dependencies, anaconda, ... -->
@@ -41,7 +40,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-            ## How are containers different from VM's?
+            ### Containers vs Virtual Machines
             <img src="images/vm_vs_container.png" alt="vm vs container" />
             <small>Image from &quot;Docker and Kubernetes: The Big Picture&quot; pluralsight course. &copy;Pluralsight LLC</small>
             </textarea>
@@ -49,7 +48,6 @@
         </section>
         <section data-markdown>
           <textarea data-template>
-            ## High level overview
             <img src="images/overview.svg"/>
           </textarea>
           <!-- Difference between image and container: Similar to OOP class vs object.
@@ -64,10 +62,12 @@
         <section>
           <section data-markdown>
             <textarea data-template>
-            ## The Dockerfile
-
-            Tells Docker how to take your source code and build an image out of it.
-
+            ### The Dockerfile
+            </textarea>
+            <!-- Tells Docker how to take your source code and build an image out of it -->
+          </section>
+          <section data-markdown>
+            <textarea data-template>
             ```docker
             FROM &lt;base-image&gt;
             WORKDIR /app
@@ -100,7 +100,7 @@
             <textarea data-template>
             #### Multi-stage builds keep images small
 
-            ```docker [1-6|1,6,8,10|8-11]
+            ```docker [1-6|1,8,10|8-11]
             FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
             WORKDIR /src
             COPY *.csproj .
@@ -134,7 +134,7 @@
         <section>
           <section data-markdown>
             <textarea data-template>
-            ## Running containers
+            ### Running containers
 
             ```console
             docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARGS]
@@ -143,42 +143,66 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Run interactive process in the foreground
+            #### Run interactive process in the foreground
 
-            ```console
-            docker run --rm -it alpine
+            ```console [2]
+            docker run --rm \
+              -it \
+              alpine
             ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Mount files into container with bind-mount volumes
+            #### Mount files into container with bind-mount volumes
 
-            ```console
-            docker run --rm -v "$(pwd):/work" prettier myfile.js
+            ```console [2]
+            docker run --rm \
+              -v "$(pwd):/work" \
+              prettier myfile.js
             ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Run in the background (detached)
+            #### Run in the background (detached)
 
-            ### Publish port(s)
-
-            ```console
-            docker run --rm -d -p 80:80 christianfosli/intro-to-docker-slides
+            ```console [2]
+            docker run --rm \
+              -d \
+              -p 80:80 \
+              christianfosli/intro-to-docker-slides
             ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Environment variables
+            #### Publish port(s)
 
-            ```console
-            # Database
-            docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=myPass postgres
+            ```console [3|]
+            docker run --rm \
+              -d \
+              -p 80:80 \
+              christianfosli/intro-to-docker-slides
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            #### Environment variables
 
-            # Elastic Search
+            ```console [2]
+            docker run -d -p 5432:5432 \
+              -e POSTGRES_PASSWORD=myPass \
+              postgres
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            #### Environment variables
+
+            ```console [2-4]
             docker run -d -p 9200:9200 -p 9300:9300 \
               -e 'discovery.type=single-node' \
               -e 'ES_JAVA_OPTS=-Xms512m -Xmx512m' \
@@ -189,13 +213,19 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Networks
+            #### Networks
 
-            ```console
+            ```console [1|1,4,10|5,9]
             docker network create myapp
 
-            docker run --rm -d -p 80:80 --network myapp myapp
-            docker run --rm -d -p 5432:5432 --network myapp \
+            docker run --rm -d -p 80:80 \
+              --network myapp \
+              -e DB_CONN=postgresql://postgres:myPass@db:5432
+              myapp
+
+            docker run --rm -d -p 5432:5432 \
+              --name db
+              --network myapp \
               -e POSTGRES_PASSWORD=myPass \
               postgres
             ```
@@ -218,13 +248,10 @@
         <section>
           <section data-markdown>
             <textarea data-template>
-              ## Docker-Compose
-
-              * Simplify running and building containers with yaml
-
-              * Great for development!
+              ### Docker-Compose
             </textarea>
           </section>
+          <!-- Simplify running and building containers using yaml. Great for development -->
           <section data-markdown>
             <textarea data-template>
               #### Without docker-compose:
@@ -259,7 +286,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              #### How?  --  docker-compose.yaml
+              #### How?
 
               ```yaml
               version: 3
@@ -283,27 +310,34 @@
             </textarea>
           </section>
         </section>
-        <section data-markdown>
-          <textarea data-template>
-          ## Next steps
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Questions?
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Next steps
 
-          * start using docker instead of installing things like database engines
+            * start using docker instead of installing things like database engines
 
-          * docker's getting started tutorial
+            * docker's getting started tutorial
 
-          ```console
-          docker run -d -p 80:80 docker/getting-started
-          ```
+            ```console
+            docker run -d -p 80:80 docker/getting-started
+            ```
 
-          * Nigel Poulton's pluralsight courses
+            * Nigel Poulton's pluralsight courses
 
-          -----
-          
-          <small>
-            Slides: <a href="https://hub.docker.com/r/christianfosli/intro-to-docker-slides">hub.docker.com/r/christianfosli/intro-to-docker-slides</a><br/>
-            Source: <a href="https://github.com/christianfosli/intro-to-docker-slides">github.com/christianfosli/intro-to-docker-slides</a>
-          </small>
-          </textarea>
+            -----
+            
+            <small>
+              Slides: <a href="https://hub.docker.com/r/christianfosli/intro-to-docker-slides">hub.docker.com/r/christianfosli/intro-to-docker-slides</a><br/>
+              Source: <a href="https://github.com/christianfosli/intro-to-docker-slides">github.com/christianfosli/intro-to-docker-slides</a>
+            </small>
+            </textarea>
+          </section>
         </section>
       </div>
     </div>
