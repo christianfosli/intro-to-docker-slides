@@ -10,37 +10,42 @@
       <div class="slides">
         <section data-markdown>
           <textarea data-template>
-          ## Docker 🐋
-
-          ### What is it and how to use it
+          ## Intro to Docker and Containers 🐋
 
           By Christian Fosli
           </textarea>
         </section>
+        <section data-markdown>
+          <textarea data-template>
+          ### Docker
+
+          A tool to *package* and *run* an application in an isolated environment.
+          <!-- .element: class="fragment" -->
+          </textarea>
+          <!-- and we call this a "container" -->
+        </section>
         <section>
           <section data-markdown>
             <textarea data-template>
-            Docker is a tool that lets us *package* and *run* an application in an isolated environment
-            ("container").
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ### Why?
+            ### Why containers?
 
-            * Consistent
+            * Consistent 
+            <!-- .element: class="fragment" -->
 
             * Scalable
+            <!-- .element: class="fragment" -->
 
-            * Convenient (run tools locally without installing them)
+            * Convenient
+            <!-- .element: class="fragment" -->
+
             <img src="images/works_on_my_machine.png" alt="works on my machine" />
             </textarea>
             <!-- Example: Share a python script with pip dependencies, anaconda, ... -->
             <!-- Example SQL Server, Elasticsearch, no problem! -->
+            <!-- Example convenient: Run things locally without installing -->
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Containers vs Virtual Machines
             <img src="images/vm_vs_container.png" alt="vm vs container" />
             <small>Image from &quot;Docker and Kubernetes: The Big Picture&quot; pluralsight course. &copy;Pluralsight LLC</small>
             </textarea>
@@ -303,7 +308,7 @@
                   image: mcr.microsoft.com/mssql/server:2019-latest
                   env:
                     ACCEPT_EULA: Y
-                    SA_PASSWORD=strongpassw0rd!
+                    SA_PASSWORD: strongpassw0rd!
                   ports:
                   - "1433:1433"
               ```
@@ -318,9 +323,11 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-            ### Next steps
+            ### Thank you
 
-            * start using docker instead of installing things like database engines
+            ----
+
+            #### Want to learn more?
 
             * docker's getting started tutorial
 
@@ -330,7 +337,7 @@
 
             * Nigel Poulton's pluralsight courses
 
-            -----
+            ----
             
             <small>
               Slides: <a href="https://hub.docker.com/r/christianfosli/intro-to-docker-slides">hub.docker.com/r/christianfosli/intro-to-docker-slides</a><br/>
