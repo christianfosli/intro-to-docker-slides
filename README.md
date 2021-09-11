@@ -1,6 +1,6 @@
 # Intro to Docker
 
-[![build status](https://img.shields.io/docker/cloud/build/christianfosli/intro-to-docker-slides)](https://hub.docker.com/repository/docker/christianfosli/intro-to-docker-slides)
+[![ci](https://github.com/christianfosli/intro-to-docker-slides/actions/workflows/ci.yaml/badge.svg)](https://github.com/christianfosli/intro-to-docker-slides/actions/workflows/ci.yaml)
 
 A small presentation that I'm giving.
 

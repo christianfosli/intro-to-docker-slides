@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: docker build -t christianfosli/intro-to-docker-slides:latest .
+
+      - name: login docker-hub
+        run: echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
+        if: github.event_name != 'pull_request'
+        env:
+          USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - run: docker push christianfosli/intro-to-docker-slides:latest
+        if: github.event_name != 'pull_request'
