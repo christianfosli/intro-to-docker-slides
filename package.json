@@ -2,17 +2,16 @@
   "name": "intro-to-docker-slides",
   "version": "1.0.0",
   "description": "intro to docker",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "author": "Christian Fosli",
-  "license": "MIT",
   "devDependencies": {
-    "snowpack": "^3.8.8"
+    "vite": "^5.1.2"
   },
   "dependencies": {
-    "reveal.js": "^4.3.0"
+    "reveal.js": "^5.0.4"
   }
 }
